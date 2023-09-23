@@ -1,5 +1,17 @@
 {
   "name": "playstation-manager",
+  "productName": "Playstation Manager",
+  "description": "Playstation Manager",
+  "author": "alyapany",
+  "license": "MIT",
+  "keywords": [
+    "vite",
+    "electron",
+    "react",
+    "typescript",
+    "tailwindcss",
+    "sqlite3"
+  ],
   "private": true,
   "version": "0.0.0",
   "scripts": {

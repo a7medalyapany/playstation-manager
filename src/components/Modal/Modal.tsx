@@ -16,10 +16,6 @@ const Modal: React.FC<ModalProps> = ({
   description,
   children,
 }) => {
-  const modalClasses = isOpen
-    ? "fixed top-0 left-0 w-full h-full flex items-center justify-center"
-    : "hidden";
-
   return (
     <Dialog.Root open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
       <Dialog.Portal>
