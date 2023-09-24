@@ -24,7 +24,7 @@ export class Ipc{
 			});
 		  }
 
-		  function calculateHourlyPrice(PlayStationType: string): number {
+		  function handleHoulryPriceChange(PlayStationType: string): number {
 			switch (PlayStationType) {
 			  case PlaystationType.PS3:
 			  return 15.0;
@@ -36,6 +36,23 @@ export class Ipc{
 			  return 0.0;
 			}
 			}
+			
+
+			function calculateHourlyPrice(PlayStationType: string, PlayersNumber: number): number {
+				switch (PlayersNumber) {
+					case 1:
+					return handleHoulryPriceChange(PlayStationType);
+					case 2:
+					return handleHoulryPriceChange(PlayStationType);
+					case 3:
+					return handleHoulryPriceChange(PlayStationType) + 5.0;
+					case 4:
+					return handleHoulryPriceChange(PlayStationType) + 10.0;
+					default:
+					return 0.0;
+				}
+				}
+
 
 			async function checkAndClearTables() {
 				let sessionsCount = await sql.getCount('Sessions');
@@ -58,12 +75,13 @@ export class Ipc{
 				  const session = await sql.selectOne('Sessions', `WHERE PlayStationID = ${PlayStationID} AND EndTime IS NULL`);
 				  const EstimateEndTime = moment().format('YYYY-MM-DD HH:mm:ss');
 			  
-				  const { HourlyPrice } = await sql.selectOne('PlayStations', `WHERE PlayStationID = ${PlayStationID}`);
+				  const { PlayStationType } = await sql.selectOne('PlayStations', `WHERE PlayStationID = '${PlayStationID}'`);
 				  const startTime = moment(session.StartTime);
 				  const endTimeMoment = moment(EstimateEndTime);
 				  const duration = moment.duration(endTimeMoment.diff(startTime));
 				  const durationInMinutes = duration.asMinutes();
-				  const totalAmount = (HourlyPrice * session.PlayersNumber * (durationInMinutes / 60)).toFixed(2);
+				  const totalAmount = (calculateHourlyPrice(PlayStationType , session.PlayersNumber) * (durationInMinutes / 60)).toFixed(2);
+
 
 			  
 				  if (!session) {
@@ -96,7 +114,7 @@ export class Ipc{
 			ipcMain.handle(IPC.createPlaystation, async (_, args) => {
 				try {
 				  const { PlayStationType } = args
-				  const HourlyPrice = calculateHourlyPrice(PlayStationType);
+				  const HourlyPrice = handleHoulryPriceChange(PlayStationType);
 		  
 				  const PlayStationName = `${PlayStationType}-R${await getNextAutoIncrementedID('PlayStations')}`;
 				  
@@ -166,13 +184,12 @@ export class Ipc{
 			  
 				  const endTime = moment().format('YYYY-MM-DD HH:mm:ss');
 				  await sql.update('Sessions', `SET EndTime = '${endTime}' WHERE SessionID = ${session.SessionID}`);
-			  
-				  const { HourlyPrice } = await sql.selectOne('PlayStations', `WHERE PlayStationID = ${PlayStationID}`);
+				  const { PlayStationType } = await sql.selectOne('PlayStations', `WHERE PlayStationID = '${PlayStationID}'`);
 				  const startTime = moment(session.StartTime);
 				  const endTimeMoment = moment(endTime);
 				  const duration = moment.duration(endTimeMoment.diff(startTime));
 				  const durationInMinutes = duration.asMinutes();
-				  const totalAmount = (HourlyPrice * session.PlayersNumber * (durationInMinutes / 60)).toFixed(2);
+				  const totalAmount = (calculateHourlyPrice(PlayStationType , session.PlayersNumber) * (durationInMinutes / 60)).toFixed(2);
 			  
 				  const billingRes = await sql.insert('Billing', { SessionID: session.SessionID, TotalAmount: totalAmount });
 			  
