@@ -1,5 +1,6 @@
 import { Playstation } from "../types";
 import REButton, { ButtonAction } from "./REButton";
+import imagePath from "../../src/assets/photo1.jpg";
 
 interface CardProps {
   ps: Playstation;
@@ -38,11 +39,7 @@ const Card: React.FC<CardProps> = ({ ps, onReserve, onEnd }) => {
        overflow-hidden
       "
       >
-        <img
-          className="object-cover"
-          src="src/assets/photo1.jpg"
-          alt="PS Image"
-        />
+        <img className="object-cover" src={imagePath} alt="PS Image" />
       </div>
       <div
         className="

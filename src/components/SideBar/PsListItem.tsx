@@ -1,4 +1,5 @@
 import { Playstation } from "../../types";
+import imagePath from "../../../src/assets/photo1.jpg";
 
 interface PsListItemProps {
   ps: Playstation;
@@ -36,7 +37,7 @@ const PsListItem: React.FC<PsListItemProps> = ({ ps }) => {
                 "
       >
         <img
-          src="src/assets/photo1.jpg"
+          src={imagePath}
           alt="PlayStation Image"
           className="object-cover max-h-[150px] max-w-[80px]"
         />

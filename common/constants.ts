@@ -7,6 +7,10 @@ export const  IPC = {
 	getSession: "Get Session",
 	Reserve: "Start Session",
 	End: "End Session",
+	UpdatePrice: "Update To New Price",
+	UpdataPassword: "Update Admin Password",
+	Delete: "Delete By ID",
+	Reset: "Reset DataBase"
 }
 
 export const lables ={

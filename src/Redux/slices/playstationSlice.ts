@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
 import { Playstation } from '../../types';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   playstations: [] as Playstation[],

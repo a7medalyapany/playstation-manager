@@ -6,15 +6,17 @@ import ReactDOM from "react-dom/client";
 
 import store from "./Redux/store.ts";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
+import ToasterProvider from "./provider/ToasterProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <ToasterProvider />
+    <Router>
       <Provider store={store}>
         <App />
       </Provider>
-    </BrowserRouter>
+    </Router>
   </React.StrictMode>
 );
 

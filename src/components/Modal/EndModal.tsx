@@ -11,11 +11,9 @@ const EndModal: React.FC<EndButtonProps> = ({ onClick, id }) => {
     <>
       <p className="text-white text-center font-semibold text-2xl">
         Price of the session is: {totalAmount}
-        {/* Price of the session is: {TotalPrice} */}
       </p>
       <p className="text-grey-500 text-center font-normal text-lg">
         spent time: {formattedDuration}
-        {/* spent time: {SpentTime} */}
       </p>
       <button
         onClick={onClick}

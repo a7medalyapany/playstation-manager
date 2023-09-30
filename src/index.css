@@ -8,19 +8,18 @@ body,
   height: 100%;
   background-color: rgb(0, 0, 0);
   color-scheme: dark;
-  /* overflow: hidden; */
+  user-select: none;
 }
 
 ::-webkit-scrollbar {
-  width: 8px; /* Customize the width of the scrollbar */
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: linear-gradient(to bottom, black, #3f3f3f); /* The track's background */
+  background: linear-gradient(to bottom, black, #3f3f3f);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3c3c3c; /* The color of the thumb */
-  /* background: #6b7280; */
-  border-radius: 4px; /* Rounded corners for that extra swag */
+  background: #3c3c3c;
+  border-radius: 4px;
 }

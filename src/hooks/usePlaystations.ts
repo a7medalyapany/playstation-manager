@@ -1,9 +1,11 @@
+import { Key, useEffect, useState } from 'react';
+
+import { RootState } from '../Redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPlaystations, addPlaystation } from '../Redux/slices/playstationSlice';
-import { IPC } from '../../common/constants';
-import { Key, useEffect, useState } from 'react';
+
 import { PlaystationType } from '../types';
-import { RootState } from '../Redux/store';
+import { IPC } from '../../common/constants';
 
 export const usePlaystations = () => {
   const dispatch = useDispatch();
@@ -23,8 +25,8 @@ export const usePlaystations = () => {
 
   useEffect(() => {
     if (dataChanged) {
-      getAllPlaystations(); // For example, re-fetch data when it changes
-      setDataChanged(false); // Reset the flag
+      getAllPlaystations();
+      setDataChanged(false);
     }
   }, [dataChanged]);
 

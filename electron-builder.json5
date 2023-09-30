@@ -3,16 +3,17 @@
  */
 {
   $schema: "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  appId: "YourAppID",
+  appId: "com.playstationmanager.app",
   asar: true,
-  productName: "playstation-manager",
+  productName: "Playstation Manager",
   directories: {
     output: "release/${version}",
   },
-  files: ["dist", "dist-electron"],
+  files: ["dist", "dist-electron", "common/data.json"],
   mac: {
     target: ["dmg"],
     artifactName: "${productName}-Mac-${version}-Installer.${ext}",
+    icon: "./src/assets/pm-logo.ico",
   },
   win: {
     target: [
@@ -22,6 +23,7 @@
       },
     ],
     artifactName: "${productName}-Windows-${version}-Setup.${ext}",
+    icon: "./src/assets/pm-logo.ico",
   },
   nsis: {
     oneClick: false,
@@ -32,5 +34,6 @@
   linux: {
     target: ["AppImage"],
     artifactName: "${productName}-Linux-${version}.${ext}",
+    icon: "./src/assets/logo.png",
   },
 }

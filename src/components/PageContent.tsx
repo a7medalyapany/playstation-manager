@@ -4,8 +4,9 @@ import { Playstation } from "../types";
 
 import Card from "./Card";
 
-import { RootState } from "../Redux/store";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { RootState } from "../Redux/store";
 import { usePlaystations } from "../hooks/usePlaystations";
 
 interface ContentProps {
@@ -30,7 +31,9 @@ const Content: React.FC<ContentProps> = ({ showAvailable }) => {
   const handleReserve = (PlayStationID: Key | number) => {
     try {
       reserveSession(PlayStationID, selectedValue);
+      toast.success("Mission done successfully!");
     } catch (error) {
+      toast.error("Error!");
       console.log(error);
     }
   };
@@ -38,14 +41,15 @@ const Content: React.FC<ContentProps> = ({ showAvailable }) => {
   const handleEnd = (PlayStationID: Key | number) => {
     try {
       endSession(PlayStationID);
+      toast.success("Mission done successfully!");
     } catch (error) {
+      toast.error("Error!");
       console.log(error);
     }
   };
 
   return (
     <div className="flex-grow bg-gradient-to-b from-black to-neutral-900 rounded-t-none rounded-b-lg overflow-y-auto">
-      {/* Add your scrollable content here */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-4 mt-4">
         {filteredPlaystations.map((playstation: Playstation) => (
           <Card

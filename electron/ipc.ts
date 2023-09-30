@@ -1,8 +1,12 @@
+import path from 'path';
+import * as fs from 'fs';
 import moment from "moment";
 
 import { Sql } from "./sqlite3";
-import { IPC } from '../common/constants'
-import { Playstation, PlaystationType } from "../src/types";
+import { IPC } from '../common/constants';
+import { Playstation } from "../src/types";
+
+import { calculateHourlyPrice, handleHourlyPriceChange } from '../src/functions/price';
 
 import { BrowserWindow, ipcMain } from "electron";
 
@@ -22,36 +26,7 @@ export class Ipc{
 				}
 			  });
 			});
-		  }
-
-		  function handleHoulryPriceChange(PlayStationType: string): number {
-			switch (PlayStationType) {
-			  case PlaystationType.PS3:
-			  return 15.0;
-			  case PlaystationType.PS4:
-			  return 20.0;
-			  case PlaystationType.PS5:
-			  return 25.0;
-			  default:
-			  return 0.0;
-			}
-			}
-			
-
-			function calculateHourlyPrice(PlayStationType: string, PlayersNumber: number): number {
-				switch (PlayersNumber) {
-					case 1:
-					return handleHoulryPriceChange(PlayStationType);
-					case 2:
-					return handleHoulryPriceChange(PlayStationType);
-					case 3:
-					return handleHoulryPriceChange(PlayStationType) + 5.0;
-					case 4:
-					return handleHoulryPriceChange(PlayStationType) + 10.0;
-					default:
-					return 0.0;
-				}
-				}
+		  }		  
 
 
 			async function checkAndClearTables() {
@@ -69,6 +44,91 @@ export class Ipc{
 				}
 			  }
 
+			  ipcMain.handle(IPC.Delete, async (_, args) => {
+				try{
+					const { PlayStationName } = args;
+					const res = await sql.delete('PlayStations', `WHERE PlayStationName = '${PlayStationName}' AND IsAvailable = 1`);
+					return {
+						code: 1,
+						msg: res,
+					  }
+				  } catch (e) {
+					return {
+					  code: 0,
+					  msg: e,
+					}
+				}
+			  })
+
+			  ipcMain.handle(IPC.Reset, async (_) => {
+				try {
+					await sql.delete('PlayStations','');
+					await sql.delete('Sessions','');
+					await sql.delete('Billing','');
+					return {
+						code:1,
+					}
+				}
+				 catch (e) {
+					return {
+					  code: 0,
+					  msg: e,
+					}
+				}
+			  })
+
+			  ipcMain.handle(IPC.UpdatePrice, async (_, args) => {
+				try{
+					const { PlayStationType, NewPrice} = args;
+
+					const dataPath = path.join(__dirname, '..','common', 'data.json');
+					const data = fs.readFileSync(dataPath, 'utf-8');
+					const jsonData = JSON.parse(data); 
+
+					jsonData.prices[PlayStationType].price = NewPrice;
+					const updatedData = JSON.stringify(jsonData, null, 2);
+
+					fs.writeFileSync(dataPath, updatedData, 'utf-8');
+
+					const res = await sql.update('PlayStations', `SET HourlyPrice = ${NewPrice} WHERE PlayStationType = '${PlayStationType}'`);
+					return {
+						code: 1,
+						msg: res,
+					  }
+				  } catch (e) {
+					console.error('Error updating price:', e);
+					return {
+					  code: 0,
+					  msg: e,
+					}
+				}
+			  })
+
+			  ipcMain.handle(IPC.UpdataPassword, async (_, args) => {
+				try{
+					const { newPassword } = args;
+
+					const dataPath = path.join(__dirname , '..', 'common', 'data.json');
+					const data = fs.readFileSync(dataPath, 'utf-8');
+					const jsonData = JSON.parse(data); 
+
+					jsonData.credentials.password = newPassword;
+					const updatedData = JSON.stringify(jsonData, null, 2);
+
+					fs.writeFileSync(dataPath, updatedData, 'utf-8');
+					return {
+						code: 1,
+					}
+			  	} catch (e) {
+					console.error('Error updating password:', e);
+				  return {
+					code: 0,
+					msg: e,
+				  }
+			  	}
+			  })
+
+
 			  ipcMain.handle(IPC.getSession, async (_, args) => {
 				try {
 				  const { PlayStationID } = args;
@@ -82,8 +142,6 @@ export class Ipc{
 				  const durationInMinutes = duration.asMinutes();
 				  const totalAmount = (calculateHourlyPrice(PlayStationType , session.PlayersNumber) * (durationInMinutes / 60)).toFixed(2);
 
-
-			  
 				  if (!session) {
 					return {
 					  code: 0,
@@ -91,7 +149,6 @@ export class Ipc{
 					};
 				  }
 			  
-				  // Format the duration
 				  const hours = Math.floor(durationInMinutes / 60);
 				  const minutes = Math.floor(durationInMinutes % 60);
 				  const formattedDuration = `${hours} hour${hours > 1 ? 's' : ''} and ${minutes} min${minutes > 1 ? 's' : ''}`;
@@ -114,7 +171,7 @@ export class Ipc{
 			ipcMain.handle(IPC.createPlaystation, async (_, args) => {
 				try {
 				  const { PlayStationType } = args
-				  const HourlyPrice = handleHoulryPriceChange(PlayStationType);
+				  const HourlyPrice = handleHourlyPriceChange(PlayStationType);
 		  
 				  const PlayStationName = `${PlayStationType}-R${await getNextAutoIncrementedID('PlayStations')}`;
 				  

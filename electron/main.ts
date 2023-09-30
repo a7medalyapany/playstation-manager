@@ -17,9 +17,9 @@ process.env.DIST = path.join(__dirname, '../dist')
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
 
 
-let win: BrowserWindow | null = null
-const sql: Sql = Sql.getInstance();
 let ipc: Ipc;
+const sql: Sql = Sql.getInstance();
+let win: BrowserWindow | null = null
 
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
@@ -28,12 +28,18 @@ function createWindow() {
   win = new BrowserWindow({
     minHeight: 900,
     minWidth: 1300,
+    show: false,
     icon: path.join(process.env.VITE_PUBLIC, 'logo.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      devTools: true,
       nodeIntegration: false,
     },
   })
+
+  // win.webContents.openDevTools({
+  //   mode: 'undocked'
+  // })
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
@@ -46,9 +52,8 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(process.env.DIST, 'index.html'))
   }
-
-  win.webContents.openDevTools({
-    mode: 'undocked'
+  win.once('ready-to-show', () => {
+    win!.show()
   })
 }
 
