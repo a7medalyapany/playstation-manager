@@ -11,7 +11,6 @@ Welcome to the PlayStation Manager app! This application simplifies the manageme
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
 - [License](#license)
-- [Contact](#contact)
 
 ## Features
 
@@ -56,4 +55,4 @@ The initial password for the app is **`password`**
 
 ## License
 
-This project is licensed under the [MIT] - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the [MIT] - see the [LICENSE](LICENSE) file for details.
