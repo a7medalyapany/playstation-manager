@@ -42,7 +42,8 @@ npm run build
 
 The initial password for the app is **`password`**
 
-![homepage](https://github.com/a7medalyapany/playstation-manager/assets/103336732/874f5813-c7f1-49c3-9893-4c8a03de3ca1)
+![homepage](https://github.com/a7medalyapany/playstation-manager/assets/103336732/1b58382b-35b3-48e3-ae9f-98f3a33b9e1c)
+
 
 ## Download
 
