@@ -1,4 +1,4 @@
-<img src="https://github.com/a7medalyapany/playstation-manager/assets/103336732/a5675b4a-ecbd-4463-ae5d-02fa75a4d4a0" alt="logo" height="100" align="right">
+<img src="https://github.com/a7medalyapany/playstation-manager/assets/103336732/c891b0e0-670b-4627-82ca-cb33ee1bae3e" alt="logo" height="100" align="right">
 
 # PlayStation Manager
 
