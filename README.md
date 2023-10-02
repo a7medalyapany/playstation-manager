@@ -61,4 +61,4 @@ The initial password for the app is **`password`**
 
 ## License
 
-This project is licensed under the [MIT] - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT - see the [LICENSE](LICENSE) file for details.
