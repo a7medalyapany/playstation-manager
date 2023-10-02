@@ -21,28 +21,27 @@ Welcome to the PlayStation Manager app! This application simplifies the manageme
 
 To get started with the PlayStation Manager app, follow these simple steps:
 
-1. **Clone this repository:**
-   ```bash
-   git clone https://github.com/a7medalyapany/playstation-manager.git
-   ```
-2. **Navigate to the repository::**
-   ```bash
-   cd playstation-manager
-   ```
-3. **Install dependencies and run the app::**
-   ```bash
-   npm install && npm run dev
-   ```
+```bash
+#Clone this repository:
+git clone https://github.com/a7medalyapany/playstation-manager.git
+#Navigate to the repository:
+cd playstation-manager
+#Install dependencies and run the app:
+npm install && npm run dev
+```
 
 To package the app, use the following command:
 
-```bash
+```shell
 npm run build
+```
 
 ## Usage
-The initial password for the app is `password`.
+
+The initial password for the app is **`password`**
 
 ## Technologies Used
+
 - Electron
 - React
 - Node.js
@@ -52,5 +51,5 @@ The initial password for the app is `password`.
 - electron-json-storage
 
 ## License
+
 This project is licensed under the [MIT] - see the [LICENSE.md](LICENSE.md) file for details.
-```
