@@ -13,7 +13,7 @@
   mac: {
     target: ["dmg"],
     artifactName: "${productName}-Mac-${version}-Installer.${ext}",
-    icon: "./src/assets/pm-logo.ico",
+    icon: "./src/assets/pm-logo.icns",
   },
   win: {
     target: [
