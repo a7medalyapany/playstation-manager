@@ -9,6 +9,7 @@ Welcome to the PlayStation Manager app! This application simplifies the manageme
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Download](#download)
 - [Technologies Used](#technologies-used)
 - [License](#license)
 
@@ -41,7 +42,11 @@ npm run build
 
 The initial password for the app is **`password`**
 
-![New Project](https://github.com/a7medalyapany/playstation-manager/assets/103336732/2483fe7d-7961-4815-8c9d-fe2f72c3f8fb)
+![homepage](https://github.com/a7medalyapany/playstation-manager/assets/103336732/874f5813-c7f1-49c3-9893-4c8a03de3ca1)
+
+## Download
+
+#### [Download the app](https://github.com/a7medalyapany/playstation-manager/releases/tag/v1.0)
 
 ## Technologies Used
 
