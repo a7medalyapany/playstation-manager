@@ -53,7 +53,7 @@ const Card: React.FC<CardProps> = ({ ps, onReserve, onEnd }) => {
       >
         <p className="font-semibold truncate w-full">{ps.PlayStationName}</p>
         <pre className="text-neutral-400 text-sm pb-4 w-full truncate">
-          {ps.PlayStationType}, blast it in Room {ps.PlayStationID}
+          {ps.PlayStationType}, blast Room {ps.PlayStationID}
         </pre>
       </div>
       <div className="absolute bottom-24 flex justify-center items-center">
