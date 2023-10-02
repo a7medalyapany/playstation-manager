@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Menu } from 'electron'
 import path from 'node:path'
 
 import { Ipc } from './ipc'
@@ -38,6 +38,8 @@ function createWindow() {
       nodeIntegration: false,
     },
   })
+
+  Menu.setApplicationMenu(null);
 
   // win.webContents.openDevTools({
   //   mode: 'undocked'
