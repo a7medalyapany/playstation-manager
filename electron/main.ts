@@ -3,6 +3,8 @@ import path from 'node:path'
 
 import { Ipc } from './ipc'
 import { Sql } from './sqlite3'
+const storage = require('electron-json-storage');
+
 
 // The built directory structure
 //
@@ -32,7 +34,7 @@ function createWindow() {
     icon: path.join(process.env.VITE_PUBLIC, 'logo.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      devTools: true,
+      devTools: false,
       nodeIntegration: false,
     },
   })
@@ -86,4 +88,31 @@ app.whenReady().then(() => {
   }
 
   sql.createTables();
+
+  storage.has('myData', function (error: any, hasData: boolean) {
+    if (error) throw error;
+
+    if (!hasData) {
+      // Data doesn't exist, initialize it
+      storage.set('myData', {
+        credentials: {
+          userName: 'admin',
+          password: 'password',
+        },
+        prices: {
+          PS3: {
+            price: 15,
+          },
+          PS4: {
+            price: 20,
+          },
+          PS5: {
+            price: 25,
+          },
+        },
+      }, function (error: any) {
+        if (error) throw error;
+      });
+    }
+  });
 })

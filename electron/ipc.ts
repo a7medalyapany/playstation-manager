@@ -1,5 +1,3 @@
-import path from 'path';
-import * as fs from 'fs';
 import moment from "moment";
 
 import { Sql } from "./sqlite3";
@@ -10,24 +8,26 @@ import { calculateHourlyPrice, handleHourlyPriceChange } from '../src/functions/
 
 import { BrowserWindow, ipcMain } from "electron";
 
+const storage = require('electron-json-storage');
+
+
 export class Ipc{
 	constructor(
 		public win: BrowserWindow,
 		public sql: Sql,
 	){
-		async function getNextAutoIncrementedID(tableName: string): Promise<number> {
-			return new Promise<number>((resolve, reject) => {
-			  const query = `SELECT MAX(PlayStationID) as maxID FROM ${tableName}`;
-			  sql.database.get(query, (err: any, row: { maxID: number }) => {
-				if (err) {
-				  reject(err);
-				} else {
-				  resolve(row ? row.maxID + 1 : 1);
-				}
-			  });
-			});
-		  }		  
-
+			async function getNextAutoIncrementedID(tableName: string): Promise<number> {
+				return new Promise<number>((resolve, reject) => {
+				const query = `SELECT MAX(PlayStationID) as maxID FROM ${tableName}`;
+				sql.database.get(query, (err: any, row: { maxID: number }) => {
+					if (err) {
+					reject(err);
+					} else {
+					resolve(row ? row.maxID + 1 : 1);
+					}
+				});
+				});
+			}		  
 
 			async function checkAndClearTables() {
 				let sessionsCount = await sql.getCount('Sessions');
@@ -77,18 +77,36 @@ export class Ipc{
 				}
 			  })
 
+			  ipcMain.handle(IPC.getPass, async() => {
+				try {
+					const res = await storage.getSync('myData');
+					const password = res.credentials.password;
+					return {
+						code:1,
+						password,
+					}
+				}
+				 catch (e) {
+					return {
+					  code: 0,
+					  msg: e,
+					}
+				}
+			  })
+
 			  ipcMain.handle(IPC.UpdatePrice, async (_, args) => {
 				try{
 					const { PlayStationType, NewPrice} = args;
 
-					const dataPath = path.join(__dirname, '..','common', 'data.json');
-					const data = fs.readFileSync(dataPath, 'utf-8');
-					const jsonData = JSON.parse(data); 
+					storage.get('myData', function(error: any, data: { prices: { [x: string]: { price: any; }; }; }) {
+						if (error) throw error;
 
-					jsonData.prices[PlayStationType].price = NewPrice;
-					const updatedData = JSON.stringify(jsonData, null, 2);
-
-					fs.writeFileSync(dataPath, updatedData, 'utf-8');
+					data.prices[PlayStationType].price = NewPrice;
+					storage.set('myData', data, function(error: any) {
+						if (error) throw error;
+						console.log('Price updated successfully');
+					  });
+					});
 
 					const res = await sql.update('PlayStations', `SET HourlyPrice = ${NewPrice} WHERE PlayStationType = '${PlayStationType}'`);
 					return {
@@ -108,14 +126,17 @@ export class Ipc{
 				try{
 					const { newPassword } = args;
 
-					const dataPath = path.join(__dirname , '..', 'common', 'data.json');
-					const data = fs.readFileSync(dataPath, 'utf-8');
-					const jsonData = JSON.parse(data); 
-
-					jsonData.credentials.password = newPassword;
-					const updatedData = JSON.stringify(jsonData, null, 2);
-
-					fs.writeFileSync(dataPath, updatedData, 'utf-8');
+					storage.get('myData', function(error: any, data: { credentials: { password: any; }; }) {
+						if (error) throw error;
+					
+						data.credentials.password = newPassword;
+					
+						storage.set('myData', data, function(error: any) {
+						if (error) throw error;
+						console.log('Password updated successfully');
+						});
+					});
+					
 					return {
 						code: 1,
 					}

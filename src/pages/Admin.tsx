@@ -26,8 +26,8 @@ function Admin() {
   const commonButtonStyles = "w-96 rounded-md";
   const commonOpsStyles = "flex flex-col p-2 m-1 gap-2 items-center";
 
-  const deleteOp = (psName: string, password: string) => {
-    if (confirmPassword(password)) {
+  const deleteOp = async (psName: string, password: string) => {
+    if (await confirmPassword(password)) {
       window.ipcRenderer
         .invoke(IPC.Delete, { PlayStationName: psName })
         .then((res) => {
@@ -42,8 +42,8 @@ function Admin() {
     }
   };
 
-  const resetOp = (password: string) => {
-    if (confirmPassword(password)) {
+  const resetOp = async (password: string) => {
+    if (await confirmPassword(password)) {
       window.ipcRenderer.invoke(IPC.Reset).then((res) => {
         if (res.code === 1) {
           toast.success("The entire data has been deleted");
@@ -56,12 +56,12 @@ function Admin() {
     }
   };
 
-  const updatePriceOp = (
+  const updatePriceOp = async (
     psType: PlaystationType,
     newPrice: number,
     password: string
   ) => {
-    if (confirmPassword(password)) {
+    if (await confirmPassword(password)) {
       window.ipcRenderer
         .invoke(IPC.UpdatePrice, {
           PlayStationType: psType,
@@ -79,12 +79,12 @@ function Admin() {
     }
   };
 
-  const updatePasswordOp = (
+  const updatePasswordOp = async (
     oldPassword: string,
     password: string,
     cPassword: string
   ) => {
-    if (confirmPassword(oldPassword)) {
+    if (await confirmPassword(oldPassword)) {
       if (password === cPassword) {
         window.ipcRenderer
           .invoke(IPC.UpdataPassword, { newPassword: password })

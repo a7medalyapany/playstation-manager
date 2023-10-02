@@ -1,22 +1,27 @@
-import path from 'path';
-import * as fs from 'fs';
+const storage = require('electron-json-storage');
+
 
 export function handleHourlyPriceChange(PlayStationType: string): number {
   try {
-    const dataPath = path.join(__dirname, '..', 'common', 'data.json');
-    const pricesJson = fs.readFileSync(dataPath, 'utf-8');
-    const prices = JSON.parse(pricesJson).prices;
+    const data = storage.getSync('myData');
 
-    if (PlayStationType in prices) {
-      return prices[PlayStationType].price;
+    if (data && data.prices) {
+      const prices = data.prices;
+
+      if (PlayStationType in prices) {
+        return prices[PlayStationType].price;
+      } else {
+        throw new Error('PlayStationType not found in prices');
+      }
     } else {
-      throw new Error('PlayStationType not found in prices');
+      throw new Error('Invalid data format');
     }
   } catch (error) {
     console.error('Error reading or parsing data:', error);
     return 0;
   }
 }
+
 
 export function calculateHourlyPrice(PlayStationType: string, PlayersNumber: number): number {
   const basePrice = handleHourlyPriceChange(PlayStationType);

@@ -7,6 +7,7 @@ export const  IPC = {
 	getSession: "Get Session",
 	Reserve: "Start Session",
 	End: "End Session",
+	getPass: "get password from json",
 	UpdatePrice: "Update To New Price",
 	UpdataPassword: "Update Admin Password",
 	Delete: "Delete By ID",

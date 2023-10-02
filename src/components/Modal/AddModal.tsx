@@ -23,7 +23,7 @@ const AddModal: React.FC<AddModalProps> = ({ closeModal }) => {
   const { createPlaystation } = usePlaystations();
 
   const handleCreatePlayStation = async (password: string) => {
-    if (confirmPassword(password)) {
+    if (await confirmPassword(password)) {
       try {
         await createPlaystation(selectedType);
         toast.success("PlayStation created successfully!");
