@@ -15,9 +15,9 @@ Welcome to the PlayStation Manager app! This application simplifies the manageme
 
 ## Features
 
-- **Modern User Interface:** Our app boasts a sleek and modern UI that enhances your PlayStation management experience.
+- **Modern User Interface:** Our app boasts a sleek and modern UI that enhances your gaming lounge management experience.
 
-- **Admin Configurations:** Take control of your PlayStation with ease. You can set a new password, delete PlayStation records, update prices for specific types, or even wipe out all data if needed.
+- **Admin Configurations:** Take control of your lounge with ease. You can set a new password, delete PlayStation records, update prices for specific types, or even wipe out all data if needed.
 
 ## Installation
 
