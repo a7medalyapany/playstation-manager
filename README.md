@@ -2,7 +2,7 @@
 
 # PlayStation Manager
 
-Welcome to the PlayStation Manager app! This application simplifies the management of your PlayStation and makes it as easy as a breeze. With its user-friendly interface and advanced features, you can effortlessly handle various aspects of your PlayStation experience. Plus, it includes a policy to keep track of the last 20 records in the database, ensuring you have all the information you need at your fingertips.
+Welcome to the PlayStation Manager app! This application simplifies the management of your gaming lounge and makes it as easy as a breeze. With its user-friendly interface and advanced features, you can effortlessly handle various aspects of your lounge management experience. Plus, it includes a policy to keep track of the last 20 records in the database, ensuring you have all the information you need at your fingertips.
 
 ## Table of Contents
 
